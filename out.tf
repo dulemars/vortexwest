@@ -16,6 +16,3 @@ output "subnet1" {
 output "subnet2" {
   value = aws_subnet.subnet2.id
 }
-output "subnet3" {
-  value = aws_subnet.subnet3.id
-}

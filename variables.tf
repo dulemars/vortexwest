@@ -10,19 +10,6 @@ variable "aws_region" {
   type    = string
   default = "eu-central-1" 
 }
-variable "cidr_block_subnet_1" {
-  type    = string
-  default = "10.1.0.0/18"
-}
-variable "cidr_block_subnet_2" {
-  type = string
-  default = "10.1.64.0/18"
-}
-variable "cidr_block_subnet_3" {
-  type = string
-  default = "10.1.128.0/17"
-}
-
 
 variable "db_engine" {
   type = string

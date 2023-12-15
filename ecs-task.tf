@@ -1,3 +1,7 @@
+###############################################################################
+# ECS task definitions
+################################################################################
+
 resource "aws_ecs_task_definition" "ecs_task_definition" {
  family             = "my-ecs-task"
  network_mode       = "awsvpc"

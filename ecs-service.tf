@@ -1,3 +1,7 @@
+###############################################################################
+# ECS service definition
+################################################################################
+
 resource "aws_ecs_service" "ecs_service" {
  name            = "my-ecs-service"
  cluster         = aws_ecs_cluster.ecs.id

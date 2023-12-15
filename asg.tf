@@ -1,3 +1,7 @@
+###############################################################################
+# Autoscaling group
+################################################################################
+
 resource "aws_autoscaling_group" "asg" {
  vpc_zone_identifier = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
  desired_capacity    = 2

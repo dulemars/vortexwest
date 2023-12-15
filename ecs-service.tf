@@ -2,15 +2,15 @@
 # ECS service definition
 ################################################################################
 
-resource "aws_ecs_service" "ecs_service" {
- name            = "my-ecs-service"
+resource "aws_ecs_service" "vortexwest" {
+ name            = "vortexwest"
  cluster         = aws_ecs_cluster.ecs.id
  task_definition = aws_ecs_task_definition.ecs_task_definition.arn
  desired_count   = 2
 
  network_configuration {
    subnets         = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
-   security_groups = [aws_security_group.alb.id]
+   security_groups = [aws_default_security_group.default.id]
  }
 
  force_new_deployment = true

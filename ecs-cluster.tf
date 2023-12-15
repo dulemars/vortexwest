@@ -3,7 +3,7 @@
 ################################################################################
 
 resource "aws_ecs_cluster" "ecs" {
- name = "ecs-cluster"
+ name = "vortexwest"
  setting {
    name  = "containerInsights"
    value = "enabled"

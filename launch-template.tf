@@ -8,7 +8,7 @@ data "aws_ami" "ecs" {
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+    values = ["al2023-ami-ecs-hvm-*-kernel-*-x86_64"]
   }
   filter {
     name   = "architecture"
@@ -19,7 +19,7 @@ data "aws_ami" "ecs" {
 resource "aws_launch_template" "lt" {
  name_prefix   = "ecs-template"
  image_id      = data.aws_ami.ecs.image_id
- instance_type = "t3.medium" ## template this
+ instance_type = "t3.small" ## template this
  key_name               = "vortexwest"
  vpc_security_group_ids = [aws_default_security_group.default.id]
 

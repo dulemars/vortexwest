@@ -20,14 +20,14 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
      cpu       = 512
      memory    = 512
      essential = true
-     logConfiguration = {
-       logDriver = "awslogs"
-       options = {
-         awslogs-region = "eu-central-1"
-         awslogs-group = "vortexwest-frontend"
-         awslogs-stream-prefix = "vortexwest-frontend"
-       }
-     }
+ #    logConfiguration = {
+ #      logDriver = "awslogs"
+ #      options = {
+ #        awslogs-region = "eu-central-1"
+ #        awslogs-group = "vortexwest-frontend"
+ #        awslogs-stream-prefix = "vortexwest-frontend"
+ #      }
+ #    }
      portMappings = [
        {
          containerPort = 80
@@ -41,16 +41,16 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
      image     = "micic/vortexwest:backend"
      cpu       = 512
      memory    = 512
-     essential = false
+     essential = true
      command   = ["python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
-     logConfiguration = {
-       logDriver = "awslogs"
-       options = {
-         awslogs-region = "eu-central-1"
-         awslogs-group = "vortexwest-backend"
-         awslogs-stream-prefix = "vortexwest-backend"
-       }
-     }
+ #    logConfiguration = {
+ #      logDriver = "awslogs"
+ #      options = {
+ #        awslogs-region = "eu-central-1"
+ #        awslogs-group = "vortexwest-backend"
+ #        awslogs-stream-prefix = "vortexwest-backend"
+ #      }
+ #    }
      portMappings = [
        {
          containerPort = 8000
@@ -73,7 +73,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
        },
        {
          name = "POSTGRES_HOST"
-         value = "postgres"
+         value = "${aws_rds_cluster.rds.endpoint}"
        },
        {
          name = "POSTGRES_PORT"
@@ -82,5 +82,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
      ]
    }
  ])
+
+ depends_on = [aws_rds_cluster.rds]
 }
 

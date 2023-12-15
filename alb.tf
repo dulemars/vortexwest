@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "tg" {
  target_type = "ip"
  vpc_id      = aws_vpc.vpc.id
  health_check {
-   path = "/swagger/"
+   path = "/"
  }
 }
 

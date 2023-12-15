@@ -19,12 +19,14 @@ data "aws_ami" "ecs" {
 resource "aws_launch_template" "lt" {
  name_prefix   = "ecs-template"
  image_id      = data.aws_ami.ecs.image_id
- instance_type = "t3.micro" ## template this
- key_name               = "dulemars"
+ instance_type = "t3.medium" ## template this
+ key_name               = "vortexwest"
  vpc_security_group_ids = [aws_default_security_group.default.id]
+
  iam_instance_profile {
    name = "ecsInstanceRole"
  }
+
  block_device_mappings {
    device_name = "/dev/xvda"
    ebs {

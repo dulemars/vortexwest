@@ -35,6 +35,50 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
          protocol      = "tcp"
        }
      ]
+   },
+   {
+     name      = "vortexwest-backend"
+     image     = "micic/vortexwest:backend"
+     cpu       = 512
+     memory    = 512
+     essential = true
+     logConfiguration = {
+       logDriver = "awslogs"
+       options = {
+         awslogs-region = "eu-central-1"
+         awslogs-group = "vortexwest-backend"
+         awslogs-stream-prefix = "vortexwest-backend"
+       }
+     }
+     portMappings = [
+       {
+         containerPort = 8000
+         hostPort      = 8000
+         protocol      = "tcp"
+       }
+     ]
+     environment = [
+       {
+         name = "POSTGRES_NAME"
+         value = "postgres"
+       },
+       {
+         name = "POSTGRES_USER"
+         value = "postgres"
+       },
+       {
+         name = "POSTGRES_PASSWORD"
+         value = "00000000"
+       },
+       {
+         name = "POSTGRES_HOST"
+         value = "postgres"
+       },
+       {
+         name = "POSTGRES_PORT"
+         value  = "5432"
+       }
+     ]
    }
  ])
 }

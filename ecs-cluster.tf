@@ -4,6 +4,18 @@
 
 resource "aws_ecs_cluster" "ecs" {
  name = "ecs-cluster"
+ setting {
+   name  = "containerInsights"
+   value = "enabled"
+ }
+ configuration {
+   execute_command_configuration {
+     logging    = "OVERRIDE"
+     log_configuration {
+       cloud_watch_log_group_name = aws_cloudwatch_log_group.vortexwest.name
+     }
+   }
+ }
 }
 
 resource "aws_ecs_capacity_provider" "ecs_cp" {
@@ -27,4 +39,8 @@ resource "aws_ecs_cluster_capacity_providers" "ecs-cluster" {
    weight            = 100
    capacity_provider = aws_ecs_capacity_provider.ecs_cp.name
  }
+}
+
+resource "aws_cloudwatch_log_group" "vortexwest" {
+  name = "vortexwest"
 }

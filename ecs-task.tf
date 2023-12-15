@@ -41,7 +41,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
      image     = "micic/vortexwest:backend"
      cpu       = 512
      memory    = 512
-     essential = true
+     essential = false
      command   = ["python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
      logConfiguration = {
        logDriver = "awslogs"

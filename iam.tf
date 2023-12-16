@@ -66,12 +66,15 @@ description = "Additional policies needed for running ECS tasks"
       {
         Action = [
           "ecs:ExecuteCommand",
+          "ecs:DescribeTask",
           "ssmmessages:CreateControlChannel",
           "ssmmessages:CreateDataChannel",
           "ssmmessages:OpenControlChannel",
           "ssmmessages:OpenDataChannel",
           "logs:CreateLogStream",
-          "logs:PutLogEvents"
+          "logs:PutLogEvents",
+          "logs:DescribeLogStreams",
+          "logs:DescribeLogGroups"
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -80,7 +83,12 @@ description = "Additional policies needed for running ECS tasks"
   })
 }
 
-resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRolei-additional" {
+resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole-additional" {
     role = "${aws_iam_role.ecsTaskExecutionRole.name}"
+    policy_arn = aws_iam_policy.ecsAdditional.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ecsInstanceRole-additional" {
+    role = "${aws_iam_role.ecsInstanceRole.name}"
     policy_arn = aws_iam_policy.ecsAdditional.arn
 }

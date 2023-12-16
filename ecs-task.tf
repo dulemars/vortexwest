@@ -43,6 +43,9 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
      memory    = 512
      essential = false
      command   = ["python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+     linuxParameters = {
+	   initProcessEnabled = true
+     }   
      logConfiguration = {
        logDriver = "awslogs"
        options = {

@@ -5,6 +5,7 @@
 resource "aws_ecs_task_definition" "ecs_task_definition" {
  family             = "my-ecs-task"
  network_mode       = "awsvpc"
+ task_role_arn      = aws_iam_role.ecsInstanceRole.arn
  execution_role_arn = aws_iam_role.ecsTaskExecutionRole.arn
  cpu                = 1024
 
@@ -42,7 +43,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
      cpu       = 512
      memory    = 512
      essential = false
-     command   = ["python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+     command   = ["python", "manage.py", "migrate", "&&", "python", "manage.py", "runserver", "0.0.0.0:8000"]
      linuxParameters = {
 	   initProcessEnabled = true
      }   

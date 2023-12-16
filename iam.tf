@@ -54,3 +54,33 @@ resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole" {
     role = "${aws_iam_role.ecsTaskExecutionRole.name}"
     policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
+
+resource "aws_iam_policy" "ecsAdditional" {
+name        = "ecsAdditional"
+path        = "/"
+description = "Additional policies needed for running ECS tasks"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "ecs:ExecuteCommand",
+          "ssmmessages:CreateControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:OpenDataChannel",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRolei-additional" {
+    role = "${aws_iam_role.ecsTaskExecutionRole.name}"
+    policy_arn = aws_iam_policy.ecsAdditional.arn
+}

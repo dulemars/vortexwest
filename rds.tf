@@ -6,7 +6,7 @@ resource "aws_rds_cluster" "rds" {
   cluster_identifier                  = "${var.name}-rds"
   engine                              = var.db_engine
   engine_version                      = var.db_engine_version
-  availability_zones                  = ["${var.aws_region}a", "${var.aws_region}b"]
+  availability_zones                  = ["${var.aws_region}a", "${var.aws_region}b","${var.aws_region}c"] #Has to be 3
   backup_retention_period             = 7
   copy_tags_to_snapshot               = true
   deletion_protection                 = false
@@ -56,4 +56,8 @@ resource "aws_security_group" "rds-sg" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+data "dns_a_record_set" "rds" {
+  host = "${aws_rds_cluster.rds.endpoint}"
 }

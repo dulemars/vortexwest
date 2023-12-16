@@ -42,7 +42,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
      cpu       = 512
      memory    = 512
      essential = false
-     command   = ["python", "manage.py", "migrate", "&&", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+     command   = ["/bin/bash", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
      logConfiguration = {
        logDriver = "awslogs"
        options = {
@@ -73,7 +73,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
        },
        {
          name = "POSTGRES_HOST"
-         value = "${aws_rds_cluster.rds.endpoint}"
+         value = "${data.dns_a_record_set.rds.addrs[0]}"
        },
        {
          name = "POSTGRES_PORT"

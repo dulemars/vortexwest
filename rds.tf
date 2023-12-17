@@ -6,7 +6,7 @@ resource "aws_rds_cluster" "rds" {
   cluster_identifier                  = "${var.name}-rds"
   engine                              = var.db_engine
   engine_version                      = var.db_engine_version
-  availability_zones                  = ["${var.aws_region}a", "${var.aws_region}b","${var.aws_region}c"] #Has to be 3
+  availability_zones                  = ["${var.aws_region}a"]
   backup_retention_period             = 7
   copy_tags_to_snapshot               = true
   deletion_protection                 = false
@@ -33,7 +33,7 @@ resource "aws_rds_cluster_instance" "cluster_instance" {
 
 resource "aws_db_subnet_group" "this" {
   name       = "rds-${var.name}"
-  subnet_ids = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
+  subnet_ids = [aws_subnet.subnet1.id, aws_subnet.subnet2.id, aws_subnet.subnet3.id]
 }
 
 resource "aws_security_group" "rds-sg" {
@@ -58,6 +58,14 @@ resource "aws_security_group" "rds-sg" {
   }
 }
 
+# Wait a bit for DNS to propagate then harvest IP address
+
+resource "time_sleep" "wait_120_seconds" {
+  depends_on      = [aws_rds_cluster_instance.cluster_instance]
+  create_duration = "120s"
+}
+
 data "dns_a_record_set" "rds" {
   host = "${aws_rds_cluster.rds.endpoint}"
+  depends_on = [time_sleep.wait_120_seconds]
 }

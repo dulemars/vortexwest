@@ -9,7 +9,7 @@ resource "aws_ecs_service" "vortexwest" {
  desired_count   = 2
 
  network_configuration {
-   subnets         = [aws_subnet.subnet1.id, aws_subnet.subnet2.id]
+   subnets         = [aws_subnet.subnet1.id, aws_subnet.subnet2.id, aws_subnet.subnet3.id]
    security_groups = [aws_default_security_group.default.id]
  }
 
